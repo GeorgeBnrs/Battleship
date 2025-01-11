@@ -49,23 +49,23 @@ namespace Battleship
                             if (bl.AircraftCarrier.Contains(lbl.Name))
                             {
                                 lbl.BackColor = Color.GreenYellow;
-                                tp.SetToolTip(lbl, "Aircraft Carrier");
+                                tp.SetToolTip(lbl, "Aircraft Carrier | " + lbl.Name);
 
                             }
                             else if (bl.Destroyer.Contains(lbl.Name))
                             {
                                 lbl.BackColor = Color.Red;
-                                tp.SetToolTip(lbl, "Destroyer");
+                                tp.SetToolTip(lbl, "Destroyer | " + lbl.Name);
                             }
                             else if (bl.Warship.Contains(lbl.Name))
                             {
                                 lbl.BackColor = Color.Green;
-                                tp.SetToolTip(lbl, "Warship");
+                                tp.SetToolTip(lbl, "Warship | " + lbl.Name);
                             }
                             else if (bl.Submarine.Contains(lbl.Name))
                             {
                                 lbl.BackColor = Color.DarkBlue;
-                                tp.SetToolTip(lbl, "Submarine");
+                                tp.SetToolTip(lbl, "Submarine | " + lbl.Name);
                             }
                             else
                             {
