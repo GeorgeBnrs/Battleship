@@ -15,7 +15,7 @@ namespace Battleship
         private String[] letters = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
         public Game()
         {
-            Size = new Size(1500, 700);
+            Size = new Size(700, 700);
             BoatLocations bl = PickLocations();
 
 
@@ -26,34 +26,6 @@ namespace Battleship
 
         }
 
-        //private String[,] InitializePlayerBoard()
-        //{
-        //    int[,] playerBoard = new int[10, 10];
-
-        //    var bl = PickLocations();
-
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        for (int j = 0; j < 10; j++)
-        //        {
-        //            if (bl.AircraftCarrier.Contains(letters[i] + j))
-        //            {
-        //                playerBoard[i, j] = 5;
-        //            }
-        //            else if (bl.Destroyer.Contains(letters[i] + j))
-        //            {
-        //                playerBoard[i, j] = 4;
-        //            }
-        //            else if (bl.Warship.Contains(letters[i] + j))
-        //            {
-        //                playerBoard[i, j] = 3;
-        //            }
-
-        //        }
-        //    }
-
-        //    return playerBoard;
-        //}
 
         private BoatLocations PickLocations()
         {
