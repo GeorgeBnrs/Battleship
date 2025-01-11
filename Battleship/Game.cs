@@ -1,0 +1,182 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Battleship
+{
+    public partial class Game : Form
+    {
+        private String[] letters = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+        public Game()
+        {
+            Size = new Size(1500, 700);
+            BoatLocations bl = PickLocations();
+
+
+
+            Board board = new Board(true, bl);
+            board.Location = new Point(40, 40);
+            this.Controls.Add(board);
+
+        }
+
+        //private String[,] InitializePlayerBoard()
+        //{
+        //    int[,] playerBoard = new int[10, 10];
+
+        //    var bl = PickLocations();
+
+        //    for (int i = 0; i < 10; i++)
+        //    {
+        //        for (int j = 0; j < 10; j++)
+        //        {
+        //            if (bl.AircraftCarrier.Contains(letters[i] + j))
+        //            {
+        //                playerBoard[i, j] = 5;
+        //            }
+        //            else if (bl.Destroyer.Contains(letters[i] + j))
+        //            {
+        //                playerBoard[i, j] = 4;
+        //            }
+        //            else if (bl.Warship.Contains(letters[i] + j))
+        //            {
+        //                playerBoard[i, j] = 3;
+        //            }
+
+        //        }
+        //    }
+
+        //    return playerBoard;
+        //}
+
+        private BoatLocations PickLocations()
+        {
+            Random rnd = new Random();
+            BoatLocations boatLocations = new BoatLocations();
+            // Aircraft Carrier
+            {
+                if (rnd.Next(0, 2) == 0) //horizontal 
+                {
+                    int row = rnd.Next(1, 11);
+                    int startingCol = rnd.Next(1, 6);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        boatLocations.AircraftCarrier[i] = letters[row-1] + (startingCol + i);
+                    }
+                }
+                else // vertical
+                {
+                    int col = rnd.Next(1, 11);
+                    int startingRow = rnd.Next(1, 6);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        boatLocations.AircraftCarrier[i] = letters[i] + (col);
+                    }
+                }
+            }
+            // Destroyer (anti-torpedo ship)
+            {
+                if (rnd.Next(0, 2) == 0) //horizontal 
+                {
+                    Console.WriteLine("here");
+                    while (boatLocations.CheckDestroyer())// first time its true since "Destroyer" is empty
+                    {
+                        Console.WriteLine("fail 1");
+                        int row = rnd.Next(1, 11);
+                        int startingCol = rnd.Next(1, 7);
+                        for (int i = 0; i < 4; i++)
+                        {
+                            boatLocations.Destroyer[i] = letters[row-1] + (startingCol + i);
+                        }
+                    }
+                }
+                else // vertical
+                {
+                    while (boatLocations.CheckDestroyer())
+                    {
+                        Console.WriteLine("fail 1");
+
+                        int col = rnd.Next(1, 11);
+                        int startingRow = rnd.Next(1, 7);
+                        for (int i = 0; i < 4; i++)
+                        {
+                            boatLocations.Destroyer[i] = letters[i] + (col);
+                        }
+                    }
+                }
+            }
+            // Warship
+            {
+                if (rnd.Next(0, 2) == 0) //horizontal 
+                {
+                    while (boatLocations.CheckWarship())
+                    {
+                        Console.WriteLine("fail 2");
+                        int row = rnd.Next(1, 11);
+                        int startingCol = rnd.Next(1, 8);
+                        for (int i = 0; i < 3; i++)
+                        {
+                            boatLocations.Warship[i] = letters[row-1] + (startingCol + i);
+                        }
+                    }
+                }
+                else // vertical
+                {
+                    while (boatLocations.CheckWarship())
+                    {
+                        Console.WriteLine("fail 2");
+                        int col = rnd.Next(1, 11);
+                        int startingRow = rnd.Next(1, 8);
+                        for (int i = 0; i < 3; i++)
+                        {
+                            boatLocations.Warship[i] = letters[i] + (col);
+                        }
+                    }
+                }
+            }
+            // Submarine
+            {
+                if (rnd.Next(0, 2) == 0) //horizontal 
+                {
+                    while (boatLocations.CheckSub())
+                    {
+                        Console.WriteLine("fail 3 ");
+                        int row = rnd.Next(1, 11);
+                        int startingCol = rnd.Next(1, 9);
+                        for (int i = 0; i < 2; i++)
+                        {
+                            boatLocations.Submarine[i] = letters[row - 1] + (startingCol + i);
+                        }
+                    }
+                }
+                else // vertical
+                {
+                    while (boatLocations.CheckSub())
+                    {
+                        Console.WriteLine("fail 3");
+                        int col = rnd.Next(1, 11);
+                        int startingRow = rnd.Next(1, 9);
+                        for (int i = 0; i < 2; i++)
+                        {
+                            boatLocations.Submarine[i] = letters[i] + (col);
+                        }
+                    }
+                }
+            }
+
+            return boatLocations;
+        }
+
+
+
+
+
+
+    }
+}
