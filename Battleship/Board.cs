@@ -12,14 +12,13 @@ namespace Battleship
     {
         public Board(bool player, BoatLocations bl)
         {
+            ToolTip tp = new ToolTip();
+            String[] letters = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+            int cellSize = 50;
+            this.Size = new Size(550, 550);
 
-            if (player) {
-                this.Size = new Size(550, 550);
-
-                ToolTip tp = new ToolTip();
-                String[] letters = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
-
-                int cellSize = 50;
+            if (player)
+            {
                 for (int row = 0; row < 11; row++)
                 {
                     for (int col = 0; col < 11; col++)
@@ -29,7 +28,7 @@ namespace Battleship
                             Label lbl = new Label();
                             if ((col == 0) && (row > 0))
                             {
-                                lbl.Text = letters[row -1];
+                                lbl.Text = letters[row - 1];
                             }
                             else if ((row == 0) && (col > 0))
                             {
@@ -37,7 +36,6 @@ namespace Battleship
                             }
 
                             lbl.TextAlign = ContentAlignment.MiddleCenter;
-                            //lbl.BackColor = Color.Gray;
                             lbl.Location = new Point(col * cellSize, row * cellSize);
                             lbl.Size = new Size(cellSize, cellSize);
                             this.Controls.Add(lbl);
@@ -72,6 +70,7 @@ namespace Battleship
                                 lbl.BackColor = Color.Aqua;
                                 tp.SetToolTip(lbl, lbl.Name);
                             }
+
                             lbl.BorderStyle = BorderStyle.FixedSingle;
                             
                             lbl.Size = new Size(cellSize, cellSize);
@@ -92,9 +91,72 @@ namespace Battleship
                     }
                 }
             }
+            else
+            {
+                for (int row = 0; row < 11; row++)
+                {
+                    for (int col = 0; col < 11; col++)
+                    {
+                        if ((col == 0) || (row == 0))
+                        {
+                            Label lbl = new Label();
+                            if ((col == 0) && (row > 0))
+                            {
+                                lbl.Text = letters[row - 1];
+                            }
+                            else if ((row == 0) && (col > 0))
+                            {
+                                lbl.Text = col.ToString();
+                            }
 
+                            lbl.TextAlign = ContentAlignment.MiddleCenter;
+                            lbl.Location = new Point(col * cellSize, row * cellSize);
+                            lbl.Size = new Size(cellSize, cellSize);
+                            this.Controls.Add(lbl);
+                        }
+                        else
+                        {
+                            Button btn = new Button();
+                            btn.Font = new Font(btn.Font.Name, 14.5f);
+                            btn.BackColor = Color.Aqua;
+                            btn.Name = letters[row - 1] + col;
+                            btn.FlatStyle = FlatStyle.Flat;
+                            btn.FlatAppearance.BorderColor = Color.DimGray;
+                            btn.Text = "";
+                            btn.FlatAppearance.BorderSize = 1;
+                            btn.Size = new Size(cellSize, cellSize);
+                            btn.Location = new Point(col * cellSize, row * cellSize);
+                            tp.SetToolTip(btn, btn.Name);
+                            if (bl.AircraftCarrier.Contains(btn.Name) || bl.Destroyer.Contains(btn.Name) || bl.Warship.Contains(btn.Name) || bl.Submarine.Contains(btn.Name))
+                            {
+                                btn.ForeColor = Color.Red;
+                                btn.Click += HitClick;
+
+                            }
+                            else 
+                            {
+                                btn.ForeColor = Color.Green;
+                                btn.Click += MissClick;
+                            }
+                            this.Controls.Add(btn);
+
+                        }
+                    }
+                }
+            }
         }
 
-        
+        private void MissClick(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            btn.Text = "-";
+        }
+
+        private void HitClick(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            btn.Text = "X";
+        }
+
     }
 }

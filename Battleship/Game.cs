@@ -15,21 +15,35 @@ namespace Battleship
         private String[] letters = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
         public Game()
         {
-            Size = new Size(700, 700);
-            BoatLocations bl = PickLocations();
+            InitializeComponent();
+            InitializeBoards();
 
-
-
-            Board board = new Board(true, bl);
-            board.Location = new Point(40, 40);
-            this.Controls.Add(board);
-
+            Console.WriteLine(Controls.Count);
         }
 
 
-        private BoatLocations PickLocations()
+        private void InitializeBoards()
         {
             Random rnd = new Random();
+            BoatLocations playerBoatLocations = PickLocations(rnd);
+            BoatLocations botBoatLocations = PickLocations(rnd);
+
+
+            Board playerBoard = new Board(true, playerBoatLocations);
+            playerBoard.Name = "playerBoard";
+            Board botBoard = new Board(false, botBoatLocations);
+            botBoard.Name = "botBoard";
+
+            playerBoard.Location = new Point(40, 40);
+            botBoard.Location = new Point(650, 40);
+
+            this.Controls.Add(playerBoard);
+            this.Controls.Add(botBoard);
+        }
+
+        private BoatLocations PickLocations(Random rnd)
+        {
+            
             BoatLocations boatLocations = new BoatLocations();
             // Aircraft Carrier
             {
@@ -57,7 +71,7 @@ namespace Battleship
                 if (rnd.Next(0, 2) == 0) //horizontal 
                 {
                     Console.WriteLine("here");
-                    while (boatLocations.CheckDestroyer())// first time its true since "Destroyer" is empty
+                    while (boatLocations.CheckDestroyer())
                     {
                         Console.WriteLine("fail 1");
                         int row = rnd.Next(1, 11);
@@ -145,10 +159,20 @@ namespace Battleship
             return boatLocations;
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Controls.RemoveByKey("botBoard");
+            Controls.RemoveByKey("playerBoard");
+            InitializeBoards();
+        }
 
-
-
-
-
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Panel panel = (Panel)Controls["botBoard"];
+            foreach (Button button in panel.Controls.OfType<Button>())
+            {
+                button.PerformClick();
+            }
+        }
     }
 }
