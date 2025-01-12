@@ -161,8 +161,10 @@ namespace Battleship
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Controls.RemoveByKey("botBoard");
-            Controls.RemoveByKey("playerBoard");
+            //Controls.RemoveByKey("playerBoard");
+            //Controls.RemoveByKey("botBoard");
+            Controls["playerBoard"].Dispose();
+            Controls["botBoard"].Dispose();
             InitializeBoards();
         }
 
