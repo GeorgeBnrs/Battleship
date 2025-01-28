@@ -13,7 +13,8 @@ namespace Battleship
     public partial class Game : Form
     {
         private String[] letters = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
-        private List<String> availableSquares = new List<String>();
+        private List<String> availableSquaresBot = new List<String>();
+        private List<String> availableSquaresPlayer = new List<String>();
 
         public Game()
         {
@@ -23,11 +24,10 @@ namespace Battleship
             {
                 for (int j = 1; j <= 10; j++)
                 {
-                    availableSquares.Add(i + j);
+                    availableSquaresBot.Add(i + j);
+                    availableSquaresPlayer.Add(i + j);
                 }
             }
-
-            Console.WriteLine(Controls.Count);
         }
 
 
@@ -36,11 +36,10 @@ namespace Battleship
             Random rnd = new Random();
             BoatLocations playerBoatLocations = PickLocations(rnd);
             BoatLocations botBoatLocations = PickLocations(rnd);
-
+            Console.WriteLine(botBoatLocations);
 
             Board playerBoard = new Board(true, playerBoatLocations);
             playerBoard.Name = "playerBoard";
-            //playerBoard.PlayerAction += PlayerAction;
             Board botBoard = new Board(false, botBoatLocations);
             botBoard.Name = "botBoard";
 
@@ -55,13 +54,23 @@ namespace Battleship
         {
             Board bb = (Board)Controls["botBoard"];
             messageHistroy.Text = lastMessage.Text + "\n" + messageHistroy.Text;
-            lastMessage.Text = "You fired at " + sq + ", it was a " + s + "\n";
-            string ans = IsShipDestroyed(bb, sq);
-            if (ans != "")
+            if (s == "hit")
             {
-                lastMessage.Text += "Bot's " + ans + " got destroyed \n";
-                bb.BoatLocations.Destroyed[ans] = true;
+                availableSquaresPlayer.Remove(sq);
+                lastMessage.Text = "You fired at " + sq + ", it was a hit\n";
+                string ans = IsShipDestroyed(bb, sq, true);
+                if (ans != "")
+                {
+                    lastMessage.Text += "Bot's " + ans + " got destroyed \n";
+                    bb.BoatLocations.Destroyed[ans] = true;
+                }
             }
+            else
+            {
+                lastMessage.Text = "You fired at " + sq + ", it was a miss\n";
+            }
+
+            
             BotAction();
         }
 
@@ -69,16 +78,16 @@ namespace Battleship
         {
             Board pb = (Board)Controls["playerBoard"];
             Random rnd = new Random();
-            int i = rnd.Next(availableSquares.Count);
-            string square = availableSquares[i];
-            availableSquares.Remove(square);
-            if (pb.BoatLocations.AircraftCarrier.Contains(square) ||
-                pb.BoatLocations.Destroyer.Contains(square) || pb.BoatLocations.Warship.Contains(square) ||
-                pb.BoatLocations.Submarine.Contains(square))
+            int i = rnd.Next(availableSquaresBot.Count);
+            string sq = availableSquaresBot[i];
+            availableSquaresBot.Remove(sq);
+            if (pb.BoatLocations.AircraftCarrier.Contains(sq) ||
+                pb.BoatLocations.Destroyer.Contains(sq) || pb.BoatLocations.Warship.Contains(sq) ||
+                pb.BoatLocations.Submarine.Contains(sq))
             {
-                Controls["playerBoard"].Controls[square].Text = "X";
-                lastMessage.Text += "The Bot fired at " + square + ", it was a hit\n";
-                string ans = IsShipDestroyed(pb, square);
+                Controls["playerBoard"].Controls[sq].Text = "X";
+                lastMessage.Text += "The Bot fired at " + sq + ", it was a hit\n";
+                string ans = IsShipDestroyed(pb, sq, false);
                 if (ans != "")
                 {
                     lastMessage.Text += "Player's " + ans + " got destroyed \n";
@@ -87,17 +96,25 @@ namespace Battleship
             }
             else
             {
-                lastMessage.Text += "The Bot fired at " + square + ", it was a miss\n";
-                Controls["playerBoard"].Controls[square].Text = "-";
+                lastMessage.Text += "The Bot fired at " + sq + ", it was a miss\n";
+                Controls["playerBoard"].Controls[sq].Text = "-";
             }
-            Console.WriteLine(square);
             
         }
 
-        private String IsShipDestroyed(Board pb, String sq)
+        private String IsShipDestroyed(Board board, String sq, bool player)
         {
+            List<String> availableSquares;
+            if (player)
+            {
+                availableSquares = availableSquaresPlayer;
+            }
+            else
+            {
+                availableSquares = availableSquaresBot;
+            }
             String returnString = "";
-            BoatLocations bl = pb.BoatLocations;
+            BoatLocations bl = board.BoatLocations;
             if (bl.AircraftCarrier.Contains(sq))
             {
                 returnString = "AircraftCarrier";
@@ -283,5 +300,6 @@ namespace Battleship
         {
             BotAction();
         }
+
     }
 }

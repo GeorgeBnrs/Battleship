@@ -103,9 +103,10 @@
             // 
             // messageHistroy
             // 
-            this.messageHistroy.Location = new System.Drawing.Point(1220, 172);
+            this.messageHistroy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.messageHistroy.Location = new System.Drawing.Point(1217, 175);
             this.messageHistroy.Name = "messageHistroy";
-            this.messageHistroy.Size = new System.Drawing.Size(396, 418);
+            this.messageHistroy.Size = new System.Drawing.Size(396, 415);
             this.messageHistroy.TabIndex = 6;
             this.messageHistroy.Text = "";
             // 
@@ -113,9 +114,10 @@
             // 
             this.lastMessage.BackColor = System.Drawing.Color.White;
             this.lastMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lastMessage.Location = new System.Drawing.Point(1220, 92);
+            this.lastMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lastMessage.Location = new System.Drawing.Point(1217, 82);
             this.lastMessage.Name = "lastMessage";
-            this.lastMessage.Size = new System.Drawing.Size(396, 77);
+            this.lastMessage.Size = new System.Drawing.Size(396, 90);
             this.lastMessage.TabIndex = 7;
             // 
             // button3
