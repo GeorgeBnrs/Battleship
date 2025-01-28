@@ -13,10 +13,19 @@ namespace Battleship
     public partial class Game : Form
     {
         private String[] letters = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+        private List<String> availableSquares = new List<String>();
+
         public Game()
         {
             InitializeComponent();
             InitializeBoards();
+            foreach (String i in letters)
+            {
+                for (int j = 1; j <= 10; j++)
+                {
+                    availableSquares.Add(i + j);
+                }
+            }
 
             Console.WriteLine(Controls.Count);
         }
@@ -31,6 +40,7 @@ namespace Battleship
 
             Board playerBoard = new Board(true, playerBoatLocations);
             playerBoard.Name = "playerBoard";
+            //playerBoard.PlayerAction += PlayerAction;
             Board botBoard = new Board(false, botBoatLocations);
             botBoard.Name = "botBoard";
 
@@ -39,6 +49,98 @@ namespace Battleship
 
             this.Controls.Add(playerBoard);
             this.Controls.Add(botBoard);
+        }
+
+        public void PlayerAction(string s, string sq)
+        {
+            Board bb = (Board)Controls["botBoard"];
+            messageHistroy.Text = lastMessage.Text + "\n" + messageHistroy.Text;
+            lastMessage.Text = "You fired at " + sq + ", it was a " + s + "\n";
+            string ans = IsShipDestroyed(bb, sq);
+            if (ans != "")
+            {
+                lastMessage.Text += "Bot's " + ans + " got destroyed \n";
+                bb.BoatLocations.Destroyed[ans] = true;
+            }
+            BotAction();
+        }
+
+        private void BotAction()
+        {
+            Board pb = (Board)Controls["playerBoard"];
+            Random rnd = new Random();
+            int i = rnd.Next(availableSquares.Count);
+            string square = availableSquares[i];
+            availableSquares.Remove(square);
+            if (pb.BoatLocations.AircraftCarrier.Contains(square) ||
+                pb.BoatLocations.Destroyer.Contains(square) || pb.BoatLocations.Warship.Contains(square) ||
+                pb.BoatLocations.Submarine.Contains(square))
+            {
+                Controls["playerBoard"].Controls[square].Text = "X";
+                lastMessage.Text += "The Bot fired at " + square + ", it was a hit\n";
+                string ans = IsShipDestroyed(pb, square);
+                if (ans != "")
+                {
+                    lastMessage.Text += "Player's " + ans + " got destroyed \n";
+                    pb.BoatLocations.Destroyed[ans] = true;
+                }
+            }
+            else
+            {
+                lastMessage.Text += "The Bot fired at " + square + ", it was a miss\n";
+                Controls["playerBoard"].Controls[square].Text = "-";
+            }
+            Console.WriteLine(square);
+            
+        }
+
+        private String IsShipDestroyed(Board pb, String sq)
+        {
+            String returnString = "";
+            BoatLocations bl = pb.BoatLocations;
+            if (bl.AircraftCarrier.Contains(sq))
+            {
+                returnString = "AircraftCarrier";
+                foreach (string s in bl.AircraftCarrier)
+                {
+                    if (availableSquares.Contains(s))
+                    {
+                        returnString = "";
+                    }
+                }
+            } else if (bl.Destroyer.Contains(sq))
+            {
+                returnString = "Destroyer";
+                foreach (string s in bl.Destroyer)
+                {
+                    if (availableSquares.Contains(s))
+                    {
+                        returnString = "";
+                    }
+                }
+            } else if (bl.Warship.Contains(sq))
+            {
+                returnString = "Warship";
+                foreach (string s in bl.Warship)
+                {
+                    if (availableSquares.Contains(s))
+                    {
+                        returnString = "";
+                    }
+                }
+            }
+            else if (bl.Submarine.Contains(sq))
+            {
+                returnString = "Submarine";
+                foreach (string s in bl.Submarine)
+                {
+                    if (availableSquares.Contains(s))
+                    {
+                        returnString = "";
+                    }
+                }
+            }
+            return returnString;
         }
 
         private BoatLocations PickLocations(Random rnd)
@@ -175,6 +277,11 @@ namespace Battleship
             {
                 button.PerformClick();
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            BotAction();
         }
     }
 }

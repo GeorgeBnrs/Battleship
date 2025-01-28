@@ -8,14 +8,19 @@ namespace Battleship
 {
     public class BoatLocations
     {
-        public BoatLocations()
-        {
-            
-        }
+
         public string[] AircraftCarrier { get; set; } = new string[5];
         public string[] Destroyer { get; set; } = new string[4];
         public string[] Warship { get; set; } = new string[3];
         public string[] Submarine { get; set; } = new string[2];
+        public Dictionary<String, bool> Destroyed { get; set; } = new Dictionary<string, bool>();
+        public BoatLocations()
+        {
+            Destroyed.Add("AircraftCarrier", false);
+            Destroyed.Add("Destroyer", false);
+            Destroyed.Add("Warship", false);
+            Destroyed.Add("Submarine", false);
+        }
 
         public bool isEmpty(string[] list)
         {
@@ -30,7 +35,6 @@ namespace Battleship
 
         public bool CheckDestroyer()
         {
-            
             if (isEmpty(Destroyer)) return true;
             var list = this.AircraftCarrier.Intersect(Destroyer);
             return list.Any();

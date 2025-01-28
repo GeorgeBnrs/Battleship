@@ -10,8 +10,23 @@ namespace Battleship
 {
     public class Board : Panel
     {
+        public event EventHandler<PlayerActionEventArgs> PlayerAction;
+
+        public class PlayerActionEventArgs : EventArgs
+        {
+            public string ButtonName { get; }
+            public PlayerActionEventArgs(string buttonName)
+            {
+                ButtonName = buttonName;
+            }
+        }
+
+
+        public BoatLocations BoatLocations { get; set; }
+
         public Board(bool player, BoatLocations bl)
         {
+            this.BoatLocations = bl;
             ToolTip tp = new ToolTip();
             String[] letters = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
             int cellSize = 50;
@@ -44,6 +59,9 @@ namespace Battleship
                         {
                             Label lbl = new Label();
                             lbl.Name = letters[row - 1] + col;
+                            lbl.ForeColor = Color.Red;
+                            lbl.Font = new Font(lbl.Font.Name, 14.5f);
+                            lbl.TextAlign = ContentAlignment.MiddleCenter;
                             if (bl.AircraftCarrier.Contains(lbl.Name))
                             {
                                 lbl.BackColor = Color.GreenYellow;
@@ -52,7 +70,7 @@ namespace Battleship
                             }
                             else if (bl.Destroyer.Contains(lbl.Name))
                             {
-                                lbl.BackColor = Color.Red;
+                                lbl.BackColor = Color.Yellow;
                                 tp.SetToolTip(lbl, "Destroyer | " + lbl.Name);
                             }
                             else if (bl.Warship.Contains(lbl.Name))
@@ -67,10 +85,11 @@ namespace Battleship
                             }
                             else
                             {
+                                lbl.ForeColor = Color.Black;
                                 lbl.BackColor = Color.Aqua;
                                 tp.SetToolTip(lbl, lbl.Name);
                             }
-
+                            
                             lbl.BorderStyle = BorderStyle.FixedSingle;
                             
                             lbl.Size = new Size(cellSize, cellSize);
@@ -150,12 +169,18 @@ namespace Battleship
         {
             Button btn = (Button)sender;
             btn.Text = "-";
+
+            Game g = (Game)this.Parent;
+            g.PlayerAction("miss", btn.Name);
         }
 
         private void HitClick(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
             btn.Text = "X";
+
+            Game g = (Game)this.Parent;
+            g.PlayerAction("hit", btn.Name);
         }
 
     }
