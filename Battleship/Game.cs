@@ -63,6 +63,31 @@ namespace Battleship
                 {
                     lastMessage.Text += "Bot's " + ans + " got destroyed \n";
                     bb.BoatLocations.Destroyed[ans] = true;
+                    if (ans == "AircraftCarrier")
+                    {
+                        foreach (string i in bb.BoatLocations.AircraftCarrier)
+                        {
+                            bb.Controls[i].BackColor = Color.GreenYellow;
+                        }
+                    } else if (ans == "Destroyer")
+                    {
+                        foreach (string i in bb.BoatLocations.Destroyer)
+                        {
+                            bb.Controls[i].BackColor = Color.MediumPurple;
+                        }
+                    } else if (ans == "Warship")
+                    {
+                        foreach (string i in bb.BoatLocations.Warship)
+                        {
+                            bb.Controls[i].BackColor = Color.Green;
+                        }
+                    } else if (ans == "Submarine")
+                    {
+                        foreach (string i in bb.BoatLocations.Submarine)
+                        {
+                            bb.Controls[i].BackColor = Color.DarkBlue;
+                        }
+                    }
                 }
             }
             else

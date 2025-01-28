@@ -70,7 +70,7 @@ namespace Battleship
                             }
                             else if (bl.Destroyer.Contains(lbl.Name))
                             {
-                                lbl.BackColor = Color.Yellow;
+                                lbl.BackColor = Color.MediumPurple;
                                 tp.SetToolTip(lbl, "Destroyer | " + lbl.Name);
                             }
                             else if (bl.Warship.Contains(lbl.Name))
