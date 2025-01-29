@@ -35,8 +35,7 @@ namespace Battleship
             }
             label2.Text = "Wins: " + gs.Wins;
             label3.Text = "Losses: " + gs.Losses;
-            int mins = (gs.Time / 60);
-            label6.Text = "Time: " + mins + ":" + (gs.Time - (mins * 60));
+            label6.Text = gs.TimeFormatted();
         }
 
         private void button1_Click(object sender, EventArgs e)

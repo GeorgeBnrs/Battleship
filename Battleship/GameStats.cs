@@ -16,7 +16,14 @@ namespace Battleship
         public int Wins { get; set; } = 0;
         public int Losses { get; set; } = 0;
 
-        public bool SaveToDB()
+        public string TimeFormatted()
+        {
+            string time;
+            int mins = (Time / 60);
+            time = mins + ":" + (Time - (mins * 60));
+            return time;
+        }
+        public void SaveToDB()
         {
             SQLiteConnection dbConnection;
             string SQLString;
@@ -39,7 +46,6 @@ namespace Battleship
             command = new SQLiteCommand(SQLString, dbConnection);
             command.ExecuteNonQuery();
             dbConnection.Close();
-            return true;
         }
     }
 

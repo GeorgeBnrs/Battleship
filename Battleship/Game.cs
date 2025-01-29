@@ -364,8 +364,8 @@ namespace Battleship
         private void timer1_Tick(object sender, EventArgs e)
         {
             gs.Time++;
-            int mins = (gs.Time / 60);
-            string timeText = mins + ":" + (gs.Time - (mins * 60));
+            //int mins = (gs.Time / 60);
+            string timeText = gs.TimeFormatted();
             label3.Text = "Time: " + timeText;
         }
 

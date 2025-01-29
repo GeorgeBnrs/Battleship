@@ -36,7 +36,8 @@ namespace Battleship
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            History hist = new History();
+            hist.Show();
         }
     }
 }

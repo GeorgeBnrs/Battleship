@@ -83,17 +83,6 @@ namespace Battleship
                             lbl.Size = new Size(cellSize, cellSize);
                             lbl.Location = new Point(col * cellSize, row * cellSize);
                             this.Controls.Add(lbl);
-                            //Button btn = new Button();
-                            //btn.BackColor = Color.Aqua;
-                            //btn.FlatStyle = FlatStyle.Flat;
-                            //btn.FlatAppearance.BorderSize = 1;
-                            //btn.FlatAppearance.BorderColor = SystemColors.ControlDark;
-                            //btn.Size = new Size(cellSize, cellSize);
-                            //btn.Location = new Point(col * cellSize, row * cellSize);
-                            //btn.Text = "";
-                            //btn.Name = letters[row - 1] + col;
-                            //tp.SetToolTip(btn, btn.Name);
-                            //this.Controls.Add(btn);
                         }
                     }
                 }
