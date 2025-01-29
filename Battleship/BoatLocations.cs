@@ -22,6 +22,16 @@ namespace Battleship
             Destroyed.Add("Submarine", false);
         }
 
+        public bool allShipsDestroyed()
+        {
+            if ((Destroyed["AircraftCarrier"] == true) && (Destroyed["Destroyer"] == true) &&
+                (Destroyed["Warship"] == true) && (Destroyed["Submarine"] == true))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool isEmpty(string[] list)
         {
             bool f = true;

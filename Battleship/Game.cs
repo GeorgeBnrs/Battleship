@@ -15,6 +15,8 @@ namespace Battleship
         private String[] letters = new String[10] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
         private List<String> availableSquaresBot = new List<String>();
         private List<String> availableSquaresPlayer = new List<String>();
+        
+        private GameStats gs = new GameStats();
 
         public Game()
         {
@@ -63,6 +65,7 @@ namespace Battleship
                 {
                     lastMessage.Text += "Bot's " + ans + " got destroyed \n";
                     bb.BoatLocations.Destroyed[ans] = true;
+                    
                     if (ans == "AircraftCarrier")
                     {
                         foreach (string i in bb.BoatLocations.AircraftCarrier)
@@ -88,6 +91,12 @@ namespace Battleship
                             bb.Controls[i].BackColor = Color.DarkBlue;
                         }
                     }
+                    if (bb.BoatLocations.allShipsDestroyed())
+                    {
+                        lastMessage.Text += "Game Ended, Player won!";
+                        gs.Wins++;
+                        EndGame(true);
+                    }
                 }
             }
             else
@@ -95,7 +104,6 @@ namespace Battleship
                 lastMessage.Text = "You fired at " + sq + ", it was a miss\n";
             }
 
-            
             BotAction();
         }
 
@@ -117,6 +125,12 @@ namespace Battleship
                 {
                     lastMessage.Text += "Player's " + ans + " got destroyed \n";
                     pb.BoatLocations.Destroyed[ans] = true;
+                    if (pb.BoatLocations.allShipsDestroyed())
+                    {
+                        lastMessage.Text += "Game Ended, Bot won!";
+                        gs.Losses++;
+                        EndGame(false);
+                    }
                 }
             }
             else
@@ -303,28 +317,68 @@ namespace Battleship
             return boatLocations;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void EndGame(bool player)
         {
-            //Controls.RemoveByKey("playerBoard");
-            //Controls.RemoveByKey("botBoard");
-            Controls["playerBoard"].Dispose();
-            Controls["botBoard"].Dispose();
-            InitializeBoards();
+            timer1.Enabled = false;
+            new GameEndScreen(gs, player,false).Show();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            Panel panel = (Panel)Controls["botBoard"];
-            foreach (Button button in panel.Controls.OfType<Button>())
+            DialogResult result = MessageBox.Show("Are you sure you want to reset the current game? it will count as a loss.", "Confirm", MessageBoxButtons.OKCancel);
+            if (result == DialogResult.OK)
             {
-                button.PerformClick();
+                gs.Losses++;
+                timer1.Enabled = false;
+                new GameEndScreen(gs, false, false).Show();
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        public void Replay()
         {
-            BotAction();
+            timer1.Enabled = true;
+            Controls["playerBoard"].Dispose();
+            Controls["botBoard"].Dispose();
+            InitializeBoards();
+            lastMessage.Text = "";
+            messageHistroy.Text = "";
         }
 
+        public void EndSession()
+        {
+            // save in db here 
+            this.Dispose();
+        }
+
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    Panel panel = (Panel)Controls["botBoard"];
+        //    foreach (Button button in panel.Controls.OfType<Button>())
+        //    {
+        //        button.PerformClick();
+        //    }
+        //}
+
+        //private void button3_Click(object sender, EventArgs e)
+        //{
+        //    BotAction();
+        //}
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            gs.Time++;
+            int mins = (gs.Time / 60);
+            string timeText = mins + ":" + (gs.Time - (mins * 60));
+            label3.Text = "Time: " + timeText;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to end the current session? current game will count as a loss.", "Confirm", MessageBoxButtons.OKCancel);
+            if (result == DialogResult.OK)
+            {
+                new GameEndScreen(gs, false, true).Show();
+            }
+        }
     }
 }
