@@ -18,9 +18,11 @@ namespace Battleship
         
         private GameStats gs = new GameStats();
 
-        public Game()
+        public Game(string name)
         {
             InitializeComponent();
+            gs.PlayerName = name;
+            this.Text = "Battleship : " + gs.PlayerName; 
             InitializeBoards();
             foreach (String i in letters)
             {
@@ -93,7 +95,7 @@ namespace Battleship
                     }
                     if (bb.BoatLocations.allShipsDestroyed())
                     {
-                        lastMessage.Text += "Game Ended, Player won!";
+                        lastMessage.Text += "Game Ended, " + gs.PlayerName+ " won!";
                         gs.Wins++;
                         EndGame(true);
                     }
@@ -123,7 +125,7 @@ namespace Battleship
                 string ans = IsShipDestroyed(pb, sq, false);
                 if (ans != "")
                 {
-                    lastMessage.Text += "Player's " + ans + " got destroyed \n";
+                    lastMessage.Text += gs.PlayerName + "'s " + ans + " got destroyed \n";
                     pb.BoatLocations.Destroyed[ans] = true;
                     if (pb.BoatLocations.allShipsDestroyed())
                     {
@@ -320,7 +322,9 @@ namespace Battleship
         private void EndGame(bool player)
         {
             timer1.Enabled = false;
-            new GameEndScreen(gs, player,false).Show();
+            GameEndScreen ges = new GameEndScreen(gs, player, false);
+            ges.Owner = this;
+            ges.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -330,7 +334,10 @@ namespace Battleship
             {
                 gs.Losses++;
                 timer1.Enabled = false;
-                new GameEndScreen(gs, false, false).Show();
+                GameEndScreen ges = new GameEndScreen(gs, false, false);
+                ges.Owner = this;
+                ges.Show();
+
             }
         }
 
@@ -346,23 +353,13 @@ namespace Battleship
 
         public void EndSession()
         {
-            // save in db here 
-            this.Dispose();
+            gs.SaveToDB();
+            GameEndScreen ges = new GameEndScreen(gs, false, true);
+            ges.Owner = this;
+            ges.Show();
         }
 
-        //private void button2_Click(object sender, EventArgs e)
-        //{
-        //    Panel panel = (Panel)Controls["botBoard"];
-        //    foreach (Button button in panel.Controls.OfType<Button>())
-        //    {
-        //        button.PerformClick();
-        //    }
-        //}
 
-        //private void button3_Click(object sender, EventArgs e)
-        //{
-        //    BotAction();
-        //}
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -377,7 +374,9 @@ namespace Battleship
             DialogResult result = MessageBox.Show("Are you sure you want to end the current session? current game will count as a loss.", "Confirm", MessageBoxButtons.OKCancel);
             if (result == DialogResult.OK)
             {
-                new GameEndScreen(gs, false, true).Show();
+                GameEndScreen ges = new GameEndScreen(gs, false, true);
+                ges.Owner = this;
+                ges.Show();
             }
         }
     }

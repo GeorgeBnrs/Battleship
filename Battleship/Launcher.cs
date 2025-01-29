@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Battleship
 {
@@ -19,8 +20,23 @@ namespace Battleship
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Game game = new Game();
+            string name;
+            if (textBox1.Text == string.Empty)
+            {
+                name = "Anonymous Player";
+            }
+            else
+            {
+                name = textBox1.Text;
+
+            }
+            Game game = new Game(name);
             game.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

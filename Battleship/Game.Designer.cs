@@ -30,14 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.messageHistroy = new System.Windows.Forms.RichTextBox();
             this.lastMessage = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label3 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
@@ -55,16 +53,6 @@
             this.button1.Text = "Reset Game";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(1582, 730);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(111, 49);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "reveal";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -123,16 +111,6 @@
             this.lastMessage.Size = new System.Drawing.Size(396, 90);
             this.lastMessage.TabIndex = 7;
             // 
-            // button3
-            // 
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(1456, 730);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(111, 49);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "bot";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
             // timer1
             // 
             this.timer1.Enabled = true;
@@ -167,14 +145,12 @@
             this.ClientSize = new System.Drawing.Size(1730, 805);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.lastMessage);
             this.Controls.Add(this.messageHistroy);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "Game";
             this.Text = "Form1";
@@ -188,14 +164,12 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.RichTextBox messageHistroy;
         private System.Windows.Forms.Label lastMessage;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button4;

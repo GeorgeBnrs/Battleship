@@ -68,7 +68,7 @@
             this.youlostLabel.AutoSize = true;
             this.youlostLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.youlostLabel.ForeColor = System.Drawing.Color.Red;
-            this.youlostLabel.Location = new System.Drawing.Point(143, 83);
+            this.youlostLabel.Location = new System.Drawing.Point(146, 83);
             this.youlostLabel.Name = "youlostLabel";
             this.youlostLabel.Size = new System.Drawing.Size(122, 29);
             this.youlostLabel.TabIndex = 2;

@@ -21,14 +21,17 @@ namespace Battleship
             }
             else
             {
-                youlostLabel.Visible = false;
+                youlostLabel.Visible = true;
             }
 
             if (endSession)
             {
+                youwonLabel.Visible = false;
+                youlostLabel.Visible = false;
                 label5.Visible = false;
                 button1.Visible = false;
                 button2.Visible = false;
+                button3.Visible = true;
             }
             label2.Text = "Wins: " + gs.Wins;
             label3.Text = "Losses: " + gs.Losses;
@@ -38,19 +41,22 @@ namespace Battleship
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Game g = (Game)this.Parent;
+            Game g = (Game)this.Owner;
             g.Replay();
+            this.Dispose();
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Game g = (Game)this.Parent;
+            Game g = (Game)this.Owner;
             g.EndSession();
+            this.Dispose();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            this.Parent.Dispose();
+            this.Owner.Dispose();
             this.Dispose();
         }
     }

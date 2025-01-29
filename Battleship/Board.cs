@@ -10,18 +10,6 @@ namespace Battleship
 {
     public class Board : Panel
     {
-        public event EventHandler<PlayerActionEventArgs> PlayerAction;
-
-        public class PlayerActionEventArgs : EventArgs
-        {
-            public string ButtonName { get; }
-            public PlayerActionEventArgs(string buttonName)
-            {
-                ButtonName = buttonName;
-            }
-        }
-
-
         public BoatLocations BoatLocations { get; set; }
 
         public Board(bool player, BoatLocations bl)
