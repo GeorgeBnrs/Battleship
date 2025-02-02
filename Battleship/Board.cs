@@ -146,7 +146,7 @@ namespace Battleship
         {
             Button btn = (Button)sender;
             btn.Text = "-";
-
+            btn.Click -= MissClick;
             Game g = (Game)this.Parent;
             g.PlayerAction("miss", btn.Name);
         }
@@ -154,8 +154,9 @@ namespace Battleship
         private void HitClick(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
+            
             btn.Text = "X";
-
+            btn.Click -= HitClick;
             Game g = (Game)this.Parent;
             g.PlayerAction("hit", btn.Name);
         }
