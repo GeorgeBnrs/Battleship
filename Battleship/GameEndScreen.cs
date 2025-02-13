@@ -14,6 +14,7 @@ namespace Battleship
     {
         public GameEndScreen(GameStats gs, bool player, bool endSession)
         {
+            this.ControlBox = false;
             InitializeComponent();
             if (player)
             {

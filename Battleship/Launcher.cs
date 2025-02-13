@@ -21,7 +21,7 @@ namespace Battleship
         private void button1_Click(object sender, EventArgs e)
         {
             string name;
-            if (textBox1.Text == string.Empty)
+            if (textBox1.Text.Replace(" ", "") == string.Empty)
             {
                 name = "Anonymous Player";
             }

@@ -127,7 +127,6 @@ namespace Battleship
                             {
                                 btn.ForeColor = Color.Red;
                                 btn.Click += HitClick;
-
                             }
                             else 
                             {

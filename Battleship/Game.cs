@@ -336,7 +336,7 @@ namespace Battleship
                 timer1.Enabled = false;
                 GameEndScreen ges = new GameEndScreen(gs, false, false);
                 ges.Owner = this;
-                ges.Show();
+                ges.ShowDialog();
 
             }
         }
@@ -356,7 +356,7 @@ namespace Battleship
             gs.SaveToDB();
             GameEndScreen ges = new GameEndScreen(gs, false, true);
             ges.Owner = this;
-            ges.Show();
+            ges.ShowDialog();
         }
 
 
@@ -374,9 +374,9 @@ namespace Battleship
             DialogResult result = MessageBox.Show("Are you sure you want to end the current session? current game will count as a loss.", "Confirm", MessageBoxButtons.OKCancel);
             if (result == DialogResult.OK)
             {
-                GameEndScreen ges = new GameEndScreen(gs, false, true);
-                ges.Owner = this;
-                ges.Show();
+                gs.Losses++;
+                timer1.Enabled = false;
+                EndSession();
             }
         }
     }
